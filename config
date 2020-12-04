@@ -10,6 +10,7 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $term gnome-terminal
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -188,3 +189,7 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 bindsym $mod+p mode "$mode_system"
+
+# calendar
+bindsym $mod+c exec zenity --calendar
+
