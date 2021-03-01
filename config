@@ -62,10 +62,10 @@ bindsym $mod+Shift+l move up
 bindsym $mod+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+#bindsym $mod+Shift+Left move left
+#bindsym $mod+Shift+Down move down
+#bindsym $mod+Shift+Up move up
+#bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+h split h
@@ -158,12 +158,8 @@ bar {
 }
 
 # lock screen
-bindsym $mod+Shift+x exec i3lock --color=000000
-
-# Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym $mod+Shift+x exec /home/sakthi/.config/i3/fuzzy_lock.sh
+exec xautolock -time 15 -locker /home/sakthi/.config/i3/fuzzy_lock.sh
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -171,6 +167,12 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 
 # Touchpad controls
 bindsym XF86TouchpadToggle exec /home/sakthi/.config/i3/toggletouchpad.sh # toggle touchpad
+
+# external display
+bindsym $mod+Shift+y exec /home/sakthi/.config/i3/eDP_only.sh # embedded display only
+bindsym $mod+Shift+t exec /home/sakthi/.config/i3/ext_only.sh # external display only
+bindsym $mod+Shift+Left exec /home/sakthi/.config/i3/both_ext_left.sh # external display on left
+bindsym $mod+Shift+Right exec /home/sakthi/.config/i3/both_ext_right.sh # external display on left
 
 # BG
 exec_always feh --bg-scale /home/sakthi/.config/i3/jeremy-bishop-GNgB1KtBRJM-unsplash.jpg
@@ -196,3 +198,37 @@ bindsym $mod+c exec zenity --calendar
 bindsym Print exec gnome-screenshot -i
 #crop-area screenshot by pressing Mod + printscreen
 bindsym $mod+Print exec gnome-screenshot -a
+# Review the lines below and append to ~/.config/i3/config
+
+## Volume control
+
+# Path to volume control, without trailing slash
+set $volumepath ~/i3-volume
+
+# Command for the status line
+#   ie: i3blocks, i3status
+set $statuscmd i3status
+
+# Signal used to update the status line
+#   i3blocks uses SIGRTMIN+10 by default
+#   i3status uses SIGUSR1 by default
+set $statussig SIGUSR1
+
+# Amount to increase/decrease volume as a percentage
+set $volumestep 5
+
+# pulseaudio-utils settings
+#
+# Symbolic name for sink (numeric index not supported)
+#   Recommended: comment out this setting and omit the -s option to use default sink
+#   List sink names: pacmd list-sinks | awk -F "[<>]" '/^\s+name: <.*>/{print $2}'
+#set $sinkname alsa_output.pci-0000_00_1b.0.analog-stereo
+
+# Using pulseaudio-utils (append "-s $sinkname" without quotes to override default sink)
+bindsym XF86AudioRaiseVolume exec --no-startup-id $volumepath/volume -n -t $statuscmd -u $statussig up $volumestep
+bindsym XF86AudioLowerVolume exec --no-startup-id $volumepath/volume -n -t $statuscmd -u $statussig down $volumestep
+bindsym XF86AudioMute        exec --no-startup-id $volumepath/volume -n -t $statuscmd -u $statussig mute
+#bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute 1 toggle
+bindsym XF86AudioMicMute exec --no-startup-id amixer set Capture toggle # mute Mic
+
+bindsym $mod+u exec --no-startup-id pavucontrol
