@@ -158,8 +158,8 @@ bar {
 }
 
 # lock screen
-bindsym $mod+Shift+x exec /home/sakthi/.config/i3/fuzzy_lock.sh
-exec xautolock -time 15 -locker /home/sakthi/.config/i3/fuzzy_lock.sh
+bindsym $mod+Shift+x exec "~/.config/i3/fuzzy_lock.sh"
+exec xautolock -time 15 -locker "~/.config/i3/fuzzy_lock.sh"
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
@@ -172,13 +172,13 @@ bindsym XF86TouchpadToggle exec /home/sakthi/.config/i3/toggletouchpad.sh # togg
 bindsym $mod+Shift+y exec /home/sakthi/.config/i3/eDP_only.sh # embedded display only
 bindsym $mod+Shift+t exec /home/sakthi/.config/i3/ext_only.sh # external display only
 bindsym $mod+Shift+Left exec /home/sakthi/.config/i3/both_ext_left.sh # external display on left
-bindsym $mod+Shift+Right exec /home/sakthi/.config/i3/both_ext_right.sh # external display on left
+bindsym $mod+Shift+Right exec /home/sakthi/.config/i3/both_ext_right.sh # external display on right
 
 # BG
 exec_always feh --bg-scale /home/sakthi/.config/i3/jeremy-bishop-GNgB1KtBRJM-unsplash.jpg
 
 # Set the DPI
-exec_always xrand --dpi 96
+exec_always xrandr --dpi 96 
 
 # power mgmt
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
@@ -235,3 +235,13 @@ bindsym XF86AudioMute        exec --no-startup-id $volumepath/volume -n -t $stat
 bindsym XF86AudioMicMute exec --no-startup-id amixer set Capture toggle # mute Mic
 
 bindsym $mod+u exec --no-startup-id pavucontrol
+for_window [window_role="pop-up"]                       floating enable
+for_window [window_role="About"]                        floating enable
+for_window [class="vlc"]                                floating enable
+for_window [title="Authy"]                              floating enable
+for_window [window_role="bubble"]                       floating enable
+for_window [window_role="task_dialog"]                  floating enable
+for_window [window_role="Preferences"]                  floating enable
+for_window [window_type="dialog"]                       floating enable
+for_window [window_type="menu"]                         floating enable
+
